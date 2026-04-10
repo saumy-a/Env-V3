@@ -17,7 +17,7 @@ from __future__ import annotations
 import logging
 import time
 
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import Body, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
 from environment import SREIncidentEnv
@@ -88,11 +88,12 @@ async def get_state() -> Observation:
 
 
 @app.post("/reset", response_model=ResetResponse)
-async def reset_env(req: Optional[ResetRequest] = None) -> ResetResponse:
+async def reset_env(
+    task_id: Optional[str] = Body(None),
+    seed: Optional[int] = Body(None),
+) -> ResetResponse:
     """Reset the environment and start a new incident."""
     try:
-        task_id = req.task_id if req else None
-        seed = req.seed if req else None
         obs = env.reset(task_id=task_id, seed=seed)
         task = env.get_current_task()
         return ResetResponse(observation=obs, task_config=task)
