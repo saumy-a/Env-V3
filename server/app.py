@@ -88,10 +88,12 @@ async def get_state() -> Observation:
 
 
 @app.post("/reset", response_model=ResetResponse)
-async def reset_env(req: ResetRequest) -> ResetResponse:
+async def reset_env(req: Optional[ResetRequest] = None) -> ResetResponse:
     """Reset the environment and start a new incident."""
     try:
-        obs = env.reset(task_id=req.task_id, seed=req.seed)
+        task_id = req.task_id if req else None
+        seed = req.seed if req else None
+        obs = env.reset(task_id=task_id, seed=seed)
         task = env.get_current_task()
         return ResetResponse(observation=obs, task_config=task)
     except ValueError as exc:
