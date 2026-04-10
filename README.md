@@ -41,10 +41,12 @@ python inference.py
 
 Expected output:
 ```
-[2026-04-10 12:00:00] [START] task=easy | incident=High API Latency | severity=medium
-[2026-04-10 12:00:01] [STEP] step=1/20 | action=LIST_ALERTS | reward=0.0000 | status=active
-...
-[2026-04-10 12:00:30] [END] task=easy | score=0.7845 | passed=True | resolved=True
+[START] task=easy env=sre_incident_env model=Qwen/Qwen2.5-72B-Instruct
+[STEP] step=1 action=LIST_ALERTS() reward=0.30 done=false error=null
+[STEP] step=2 action=RUN_QUERY() reward=1.00 done=false error=null
+[STEP] step=3 action=RESTART_SERVICE() reward=1.00 done=false error=null
+[STEP] step=4 action=RESOLVE() reward=10.00 done=true error=null
+[END] success=true steps=4 score=0.963 rewards=0.30,1.00,1.00,10.00
 ```
 
 ### 3. Start the API Server

@@ -808,7 +808,7 @@ class SREIncidentEnv:
 
     def _check_resolution(self, action_result: ActionResult) -> bool:
         """Check if the incident is properly resolved."""
-        relevant_actions = set(self._action_history)
+        relevant_actions = set(ar.action for ar in self._action_history)
         required = set(self._incident_template.correct_actions[:2])
 
         return len(relevant_actions & required) >= 2
