@@ -764,8 +764,8 @@ class SREIncidentEnv:
             return {"alerts": [a.model_dump() for a in self._observation.active_alerts]}
         elif action_type == SREAction.RUN_QUERY:
             return {
-                "metrics": [m.model_dump() for m in self._incident_template.metrics],
-                "logs": [l.model_dump() for l in self._incident_template.logs],
+                "metrics": self._incident_template.metrics,
+                "logs": self._incident_template.logs,
             }
         elif action_type == SREAction.GET_DEPLOYMENT:
             return {
